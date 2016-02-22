@@ -17,6 +17,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 app = Flask(__name__)
 
+
 # ADD @auth.verify_password decorator here
 @auth.verify_password
 def verify_password(username_or_token, password):

@@ -6,7 +6,7 @@ package self.koti.algorithms
 class QuickSort {
   def quickSort(input: List[Int]): List[Int] = {
     input match {
-      case List() | Nil => List()
+      case List() | Nil => List.empty
       case a :: Nil => List(a)
       case a :: list => {
         quickSort(list.filter(_ < a)) ::: List(a) ::: quickSort(list.filter(_ >= a))

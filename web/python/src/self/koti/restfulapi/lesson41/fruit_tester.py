@@ -1,6 +1,8 @@
-from httplib2 import Http
 import json
 import sys
+
+from httplib2 import Http
+
 
 print("Running Endpoint Tester....\n")
 address = 'http://localhost:5000'

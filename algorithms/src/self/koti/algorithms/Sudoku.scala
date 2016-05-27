@@ -14,16 +14,21 @@ object Sudoku extends App {
    * (1, 4) -> 2, (1, 5) -> 2, (1, 6) -> 2, (2, 4) -> 2, (2, 5) -> 2, (2, 6) -> 2, (3, 4) -> 2, (3, 5) -> 2, (3, 6) -> 2
    * ...}
    */
-  val squareMap = (for (((x, y), sq) <- (for (x <- rows; y <- rows) yield (x, y)) zip (Stream from 1);
-                        x_ <- x;
-                        y_ <- y)
-    yield (x_, y_) -> sq).toMap
+  val squareMap = (
+    for {
+      ((x, y), sq) <- (for (x <- rows; y <- rows) yield (x, y)) zip (Stream from 1)
+      x_ <- x
+      y_ <- y
+    }
+      yield (x_, y_) -> sq
+    ).toMap
 
 
   val revSquareMap = Map(
     1 -> Position(0, 0), 2 -> Position(0, 3), 3 -> Position(0, 6),
     4 -> Position(3, 0), 5 -> Position(3, 3), 6 -> Position(3, 6),
-    7 -> Position(6, 0), 8 -> Position(6, 3), 9 -> Position(6, 6))
+    7 -> Position(6, 0), 8 -> Position(6, 3), 9 -> Position(6, 6)
+  )
 
   val one = Some(1)
   val two = Some(2)
@@ -109,6 +114,7 @@ object Sudoku extends App {
   val expectedResult = List[Option[Int]](None, None, None, six, eight, None, one, nine, None)
 
   def printGrid(grid: Grid) = grid map { row => row map { column => " " + print(column) } }
+
   assert(result == expectedResult)
   assert(getRow(input, 1) == List(None, None, None, two, six, None, seven, None, one))
   assert(getColumn(input, 1) == List(None, six, one, eight, None, None, None, None, seven))
@@ -279,7 +285,7 @@ object Sudoku extends App {
     require(1 <= which && which <= 9, "which is out of range [1, 9]")
     val (x_, y_) = (revSquareMap(which).x, revSquareMap(which).y)
 
-    (0 to 2).foldLeft(List[Option[Int]]()) {
+    (0 to 2).foldLeft(List.empty[Option[Int]]) {
       case (list, index) => list ++ grid(x_ + index).slice(y_, y_ + 3)
     }
   }
@@ -315,5 +321,6 @@ object Sudoku extends App {
   }
 
   case class Position(x: Int, y: Int)
+
 }
 
